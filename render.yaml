@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: wstunnel-vpn
+    runtime: docker
+    plan: free
+    envVars:
+      # Render автоматически создаёт PORT, но мы явно указываем остальные
+      - key: MODE
+        value: auto
+      - key: WG_SUBNET
+        value: 10.200.200
+      - key: WG_DNS
+        value: 1.1.1.1,8.8.8.8
+      - key: WG_PORT
+        value: 51820
+      - key: SOCKS5_PORT
+        value: 1080
+      - key: CLIENTS_COUNT
+        value: 2
+    # Render Free Tier не даёт CAP_NET_ADMIN, поэтому MODE=auto переключится на socks5
+    # Для WireGuard используй plan: starter или выше, или deploy на VPS
